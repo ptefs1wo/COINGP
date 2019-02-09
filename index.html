@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>COIN GRAND PRIX</title>
+</head>
+<body>
+<h1>COIN GRAND PRIX</h1>
+<img id="coinpct" src="./coin.jpg" style="display:block">
+<button id="toss" onclick="toss()">Let's toss!</button>
+<div id="newrecord" style="display:none;">
+	<h2>congratulations! new record! Please your name in this box.</h2>
+	<input type="text" name="player">
+	<button id="send">add ranking</button>
+</div>
+<button id="newgame" onclick="NewGame()" style="display:none">re try?</button>
+<div id="legends"></div>
+<button onclick="NowRanking()">Update Ranking</button>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script>
+const URL="https://script.google.com/macros/s/AKfycbyDxkJHaBstmJljK3ug2xDikXY3FxLXtp-fTsd20XAJQz5nfeg/exec";
+let COUN;
+let rank10;
+NowRanking();
+NewGame();
+function NewGame(){
+	$('#coinpct').attr('src','./coin.jpg');
+	COUN=0;
+	if(COUN>=0){
+		$('#toss').css('display','inline-block');
+		$('#newrecord').css('display','none');
+		$('#newgame').css('display','none');
+	}
+}
+function toss(){
+	let r=Math.random();
+	if(r>0.5){
+		$('#coinpct').attr('src','./coin.jpg');
+		console.log("omote");
+		COUN++;
+	}
+	else{
+		$('#coinpct').attr('src','./coinb.jpg');
+		console.log("ura");
+		let toss=document.getElementById("toss");
+		let newgame=document.getElementById("newgame");
+		$('#toss').css('display','none');
+		$('#newgame').css('display','inline-block');
+		if(COUN>rank10) $('#newrecord').css('display','block');
+	}
+	console.log(COUN);
+}
+function NowRanking(){
+	$.ajax({
+		type:'GET',
+		url:URL,
+		dataType:'jsonp',
+		data:{
+			q:1
+		}
+	}).done(function(data){
+		GetRecords(data);
+	});
+}
+$('#send').click(function(){
+	let NAME=$('input[name="player"]').val();
+	$.ajax({
+		type:'GET',
+		url:URL,
+		dataType:'jsonp',
+		data:{
+			coun:COUN,
+			name:''+NAME+''
+		}
+	}).done(function(data){
+		GetRecords(data);
+	});
+	$('#newrecord').css('display','none');
+});
+function GetRecords(data){
+	let result="<h2>Ranking Records</h2>";
+	for(let i=0;i<data.length;i++){
+		result+=('<div class="ranker">Rank-'+(i+1)+':'+data[i][1]+':'+data[i][0]+' --- '+data[i][2]+"</div>");
+	}
+	$('#legends').html(result);
+	rank10=data[(data.length-1)][0];
+}
+</script>
+</body>
+</html>
