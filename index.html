@@ -6,7 +6,8 @@
 </head>
 <body>
 <h1>COIN GRAND PRIX</h1>
-<img id="coinpct" src="./coin.jpg" style="display:block">
+<span id="nowtosscoun"></span>
+<img id="coinpct" src="./coin.png"><br>
 <button id="toss" onclick="toss()">Let's toss!</button>
 <div id="newrecord" style="display:none;">
 	<h2>congratulations! new record! Please your name in this box.</h2>
@@ -26,8 +27,10 @@ let rank10;
 NowRanking();
 NewGame();
 function NewGame(){
-	$('#coinpct').attr('src','./coin.jpg');
+	$('#coinpct').attr('src','./coin.png');
+	$('#toss').removeAttr('disabled');
 	COUN=0;
+	$('#nowtosscoun').text('Now : '+COUN);
 	if(COUN>=0){
 		$('#toss').css('display','inline-block');
 		$('#newrecord').css('display','none');
@@ -36,21 +39,24 @@ function NewGame(){
 }
 function toss(){
 	let r=Math.random();
-	if(r>0.5){
-		$('#coinpct').attr('src','./coin.jpg');
-		console.log("omote");
-		COUN++;
-	}
-	else{
-		$('#coinpct').attr('src','./coinb.jpg');
-		console.log("ura");
-		let toss=document.getElementById("toss");
-		let newgame=document.getElementById("newgame");
-		$('#toss').css('display','none');
-		$('#newgame').css('display','inline-block');
-		if(COUN>rank10) $('#newrecord').css('display','block');
-	}
-	console.log(COUN);
+	$('#coinpct').attr('src','./coinani.gif');
+	$('#toss').attr('disabled');
+	window.setTimeout(function(){
+		if(r>0.5){
+			$('#coinpct').attr('src','./coin.png');
+			COUN++;
+		}
+		else{
+			$('#coinpct').attr('src','./coinb.png');
+			let toss=document.getElementById("toss");
+			let newgame=document.getElementById("newgame");
+			$('#toss').css('display','none');
+			$('#newgame').css('display','inline-block');
+			if(COUN>rank10) $('#newrecord').css('display','block');
+		}
+		$('#nowtosscoun').text('Now : '+COUN);
+		$('#toss').removeAttr('disabled');
+	},1500);
 }
 function NowRanking(){
 	$.ajax({
