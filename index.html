@@ -23,7 +23,8 @@
 <script>
 const URL="https://script.google.com/macros/s/AKfycbyDxkJHaBstmJljK3ug2xDikXY3FxLXtp-fTsd20XAJQz5nfeg/exec";
 let COUN;
-let rank10;
+let btmrank;
+let rankernum;
 NowRanking();
 NewGame();
 function NewGame(){
@@ -40,7 +41,7 @@ function NewGame(){
 function toss(){
 	let r=Math.random();
 	$('#coinpct').attr('src','./coinani.gif');
-	$('#toss').attr('disabled');
+	$('#toss').attr('disabled','disabled');
 	window.setTimeout(function(){
 		if(r>0.5){
 			$('#coinpct').attr('src','./coin.png');
@@ -52,7 +53,7 @@ function toss(){
 			let newgame=document.getElementById("newgame");
 			$('#toss').css('display','none');
 			$('#newgame').css('display','inline-block');
-			if(COUN>rank10) $('#newrecord').css('display','block');
+			if((COUN>btmrank)||(rankernum<10)) $('#newrecord').css('display','block');
 		}
 		$('#nowtosscoun').text('Now : '+COUN);
 		$('#toss').removeAttr('disabled');
@@ -91,7 +92,8 @@ function GetRecords(data){
 		result+=('<div class="ranker">Rank-'+(i+1)+':'+data[i][1]+':'+data[i][0]+' --- '+data[i][2]+"</div>");
 	}
 	$('#legends').html(result);
-	rank10=data[(data.length-1)][0];
+	btmrank=data[(data.length-1)][0];
+	rankernum=data.length;
 }
 </script>
 </body>
