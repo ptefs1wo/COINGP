@@ -17,9 +17,7 @@
 <button id="newgame" onclick="NewGame()" style="display:none">re try?</button>
 <div id="legends"></div>
 <button onclick="NowRanking()">Update Ranking</button>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
 const URL="https://script.google.com/macros/s/AKfycbyDxkJHaBstmJljK3ug2xDikXY3FxLXtp-fTsd20XAJQz5nfeg/exec";
 let COUN;
@@ -49,8 +47,6 @@ function toss(){
 		}
 		else{
 			$('#coinpct').attr('src','./coinb.png');
-			let toss=document.getElementById("toss");
-			let newgame=document.getElementById("newgame");
 			$('#toss').css('display','none');
 			$('#newgame').css('display','inline-block');
 			if((COUN>btmrank)||(rankernum<10)) $('#newrecord').css('display','block');
