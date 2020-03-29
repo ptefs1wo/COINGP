@@ -83,10 +83,11 @@ $('#send').click(function(){
 	$('#newrecord').css('display','none');
 });
 function GetRecords(data){
-	let result="<h2>Ranking Records</h2>";
+	let result="<caption>Ranking Records</caption><tbody>";
 	for(let i=0;i<data.length;i++){
-		result+=('<div class="ranker">Rank-'+(i+1)+':'+data[i][1]+':'+data[i][0]+' --- '+data[i][2]+"</div>");
+		result+=('<tr><td>Rank-'+(i+1)+'</td><td>'+data[i][1]+'</td><td>'+data[i][0]+'</td><td> --- '+data[i][2]+"</td></tr>");
 	}
+	result+="</tbody></table>";
 	$('#legends').html(result);
 	btmrank=data[(data.length-1)][0];
 	rankernum=data.length;
